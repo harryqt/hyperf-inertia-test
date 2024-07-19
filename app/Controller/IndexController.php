@@ -4,21 +4,15 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Hyperf\View\RenderInterface;
-
 class IndexController extends AbstractController
 {
-    public function index(RenderInterface $render)
+    public function test1()
     {
-        // $user = $this->request->input('user', 'Hyperf');
-        // $method = $this->request->getMethod();
+        return inertia('Test1', [])->toResponse($this->request);
+    }
 
-        // return [
-        //     'method' => $method,
-        //     'message' => "Hello {$user}.",
-        // ];
-
-        // return $render->render('index', ['name' => 'Hyperf']);
-        return hd($render);
+    public function test2()
+    {
+        return inertia('Test2', [])->toResponse($this->request);
     }
 }
