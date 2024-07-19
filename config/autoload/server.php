@@ -1,17 +1,11 @@
 <?php
 
 declare(strict_types=1);
-/**
- * This file is part of Hyperf.
- *
- * @link     https://www.hyperf.io
- * @document https://hyperf.wiki
- * @contact  group@hyperf.io
- * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
- */
+
+use Swoole\Constant;
 use Hyperf\Server\Event;
 use Hyperf\Server\Server;
-use Swoole\Constant;
+use Hyperf\Support\System;
 
 return [
     'mode' => SWOOLE_PROCESS,
@@ -41,10 +35,20 @@ return [
         Constant::OPTION_MAX_REQUEST => 100000,
         Constant::OPTION_SOCKET_BUFFER_SIZE => 2 * 1024 * 1024,
         Constant::OPTION_BUFFER_OUTPUT_SIZE => 2 * 1024 * 1024,
+
+        // Number of Task Workers, configure the appropriate number based on your server configuration.
+        'task_worker_num' => System::getCpuCoresNum(),
+        // Because `Task` mainly deals with methods that cannot be coroutined,
+        // it is recommended to set `false` here to avoid data confusion under coroutines.
+        'task_enable_coroutine' => false,
     ],
     'callbacks' => [
         Event::ON_WORKER_START => [Hyperf\Framework\Bootstrap\WorkerStartCallback::class, 'onWorkerStart'],
         Event::ON_PIPE_MESSAGE => [Hyperf\Framework\Bootstrap\PipeMessageCallback::class, 'onPipeMessage'],
         Event::ON_WORKER_EXIT => [Hyperf\Framework\Bootstrap\WorkerExitCallback::class, 'onWorkerExit'],
+
+        // Task callbacks
+        Event::ON_TASK => [Hyperf\Framework\Bootstrap\TaskCallback::class, 'onTask'],
+        Event::ON_FINISH => [Hyperf\Framework\Bootstrap\FinishCallback::class, 'onFinish'],
     ],
 ];
