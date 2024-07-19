@@ -18,6 +18,7 @@ class IndexController extends AbstractController
         //     'message' => "Hello {$user}.",
         // ];
 
-        return $render->render('index', ['name' => 'Hyperf']);
+        // return $render->render('index', ['name' => 'Hyperf']);
+        return hd($render);
     }
 }
