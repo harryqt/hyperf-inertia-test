@@ -35,6 +35,12 @@ return [
         Constant::OPTION_MAX_REQUEST => 100000,
         Constant::OPTION_SOCKET_BUFFER_SIZE => 2 * 1024 * 1024,
         Constant::OPTION_BUFFER_OUTPUT_SIZE => 2 * 1024 * 1024,
+        Constant::OPTION_DOCUMENT_ROOT => BASE_PATH . '/storage',
+        Constant::OPTION_STATIC_HANDLER_LOCATIONS => ['/public'],
+        Constant::OPTION_ENABLE_STATIC_HANDLER => true,
+        Constant::OPTION_COMPRESSION_LEVEL => 6,
+        Constant::OPTION_HTTP_COMPRESSION => true,
+        Constant::OPTION_HTTP_COMPRESSION_LEVEL => 6,
 
         // Number of Task Workers, configure the appropriate number based on your server configuration.
         'task_worker_num' => System::getCpuCoresNum(),
